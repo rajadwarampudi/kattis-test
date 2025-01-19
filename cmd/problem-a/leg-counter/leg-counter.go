@@ -7,11 +7,20 @@ import "fmt"
 // and prints the result in "x y z" format.
 // If the totalLegs is not possible to achive then it prints "impossible"
 func PrintLegCounts(firstTypeAnimalLegs, secondTypeAnimalLegs, thirdTypeAnimalLegs, totalLegs int) {
+	result := GenerateLegCountsResult(firstTypeAnimalLegs, secondTypeAnimalLegs, thirdTypeAnimalLegs, totalLegs)
+
+	for _, combination := range result {
+		fmt.Println(combination)
+	}
+}
+
+func GenerateLegCountsResult(firstTypeAnimalLegs, secondTypeAnimalLegs, thirdTypeAnimalLegs, totalLegs int) []string {
 	maxFirstAnimalCount := calculateMaxPossibleAnimalCount(totalLegs, firstTypeAnimalLegs)
 	maxSecondAnimalCount := calculateMaxPossibleAnimalCount(totalLegs, secondTypeAnimalLegs)
 	maxThirdAnimalCount := calculateMaxPossibleAnimalCount(totalLegs, thirdTypeAnimalLegs)
 
 	isTotalLegCountPossible := false
+	result := []string{}
 
 	for firstCount := 0; firstCount <= maxFirstAnimalCount; firstCount++ {
 		for secondCount := 0; secondCount <= maxSecondAnimalCount; secondCount++ {
@@ -19,7 +28,8 @@ func PrintLegCounts(firstTypeAnimalLegs, secondTypeAnimalLegs, thirdTypeAnimalLe
 				if calculateAnimalTypeTotalLegs(firstCount, firstTypeAnimalLegs) +
 				 calculateAnimalTypeTotalLegs(secondCount, secondTypeAnimalLegs) +
 				 calculateAnimalTypeTotalLegs(thirdCount, thirdTypeAnimalLegs) == totalLegs {
-					fmt.Printf("%d %d %d\n", firstCount, secondCount, thirdCount)
+					combination := fmt.Sprintf("%d %d %d", firstCount, secondCount, thirdCount)
+					result = append(result, combination)
 					isTotalLegCountPossible = true
 				}
 			}
@@ -27,8 +37,10 @@ func PrintLegCounts(firstTypeAnimalLegs, secondTypeAnimalLegs, thirdTypeAnimalLe
 	}
 
 	if !isTotalLegCountPossible {
-		fmt.Println("impossible")
+		result = append(result, "impossible")
 	}
+
+	return result
 }
 
 

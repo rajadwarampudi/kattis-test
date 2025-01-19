@@ -35,6 +35,6 @@ func solveBoards(noOfTestCases int) {
 			}
 			floodItGame.AddRow(row)
 		}
-		floodItGame.SolveBoard()
+		floodItGame.PrintSolvedBoardResult()
 	}
 }

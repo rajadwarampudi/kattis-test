@@ -7,10 +7,20 @@ import (
 
 const FULL_CIRCLE = 2 * math.Pi
 
-// Calculates the maximum area of a slice in the pizza after slicing it repeatedly for given number of people
+// Calculates and prints the maximum area of a slice in the pizza after slicing it repeatedly for given number of people
 // at the given angle of degrees, minutes and seconds
 // and prints the area of the slice with maximum area
 func PrintMaxPossibleSliceArea(radius, noOfPeople, angleDegrees, angleMinutes, angleSeconds int) {
+	
+	largestSliceArea := CalculateMaxPossibleSliceArea(radius, noOfPeople, angleDegrees, angleMinutes, angleSeconds)
+
+	fmt.Printf("%f", largestSliceArea)
+}
+
+// Calculates the maximum area of a slice in the pizza after slicing it repeatedly for given number of people
+// at the given angle of degrees, minutes and seconds
+// and prints the area of the slice with maximum area
+func CalculateMaxPossibleSliceArea(radius, noOfPeople, angleDegrees, angleMinutes, angleSeconds int) float64 {
 	fmt.Println("inside pizza slice solution method")
 	angle := (math.Pi / 180.0) * (float64(angleDegrees) + float64(angleMinutes)/60.0 + float64(angleSeconds)/3600)
 
@@ -26,5 +36,6 @@ func PrintMaxPossibleSliceArea(radius, noOfPeople, angleDegrees, angleMinutes, a
 
 	largestSliceArea := 0.5 * maxAngle * float64(radius) * float64(radius)
 
-	fmt.Printf("%.6f", largestSliceArea)
+	return math.Round(largestSliceArea * 1e6) / 1e6
 }
+

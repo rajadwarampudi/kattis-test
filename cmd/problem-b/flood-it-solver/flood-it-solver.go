@@ -40,12 +40,27 @@ func (floodIt *FloodIt) isBoardFlooded() bool {
 	return true
 }
 
-// SolveBoard method solves the given flood-it board using greedy algorithm
+// PrintSolvedBoardResult method solves the given flood-it board using greedy algorithm
 // and prints two lines of output.
 // The first line represents the number of steps required to solve the board
 // The second line represents the count of each color chosen while solving the board.
-func (floodIt *FloodIt) SolveBoard() {
+func (floodIt *FloodIt) PrintSolvedBoardResult() {
 
+	totalStepsToSolve, chosenColorCounts := floodIt.SolveBoard()
+	
+	fmt.Println(totalStepsToSolve)
+
+	for _, chosenColorCount := range chosenColorCounts {
+		fmt.Printf("%d ", chosenColorCount)
+	}
+	fmt.Println()
+}
+
+// SolveBoard method solves the given flood-it board using greedy algorithm
+// and returns two values from the result
+// The first return value integer represents the number of steps required to solve the board
+// The second return value array of size 6 represents the count of each color chosen while solving the board.
+func (floodIt *FloodIt) SolveBoard() (int, [6]int) {
 	totalStepsToSolve := 0
 	var chosenColorCounts [6]int
 
@@ -60,16 +75,10 @@ func (floodIt *FloodIt) SolveBoard() {
 		floodIt.floodPossibleTilesWithChosenColor(0, 0, currentColor, chosenColor)
 
 		totalStepsToSolve++
-		chosenColorCounts[chosenColor - 1]++
+		chosenColorCounts[chosenColor-1]++
 	}
 
-	fmt.Println(totalStepsToSolve)
-
-	for _, chosenColorCount := range chosenColorCounts {
-		fmt.Printf("%d ", chosenColorCount)
-	}
-	fmt.Println()
-
+	return totalStepsToSolve, chosenColorCounts
 }
 
 func (floodIt *FloodIt) floodPossibleTilesWithChosenColor(x, y, currentColor, chosenColor int) {
@@ -79,10 +88,10 @@ func (floodIt *FloodIt) floodPossibleTilesWithChosenColor(x, y, currentColor, ch
 
 	floodIt.Board[x][y] = chosenColor
 
-	floodIt.floodPossibleTilesWithChosenColor(x + 1, y, currentColor, chosenColor)
-	floodIt.floodPossibleTilesWithChosenColor(x - 1, y, currentColor, chosenColor)
-	floodIt.floodPossibleTilesWithChosenColor(x, y + 1, currentColor, chosenColor)
-	floodIt.floodPossibleTilesWithChosenColor(x, y - 1, currentColor, chosenColor)
+	floodIt.floodPossibleTilesWithChosenColor(x+1, y, currentColor, chosenColor)
+	floodIt.floodPossibleTilesWithChosenColor(x-1, y, currentColor, chosenColor)
+	floodIt.floodPossibleTilesWithChosenColor(x, y+1, currentColor, chosenColor)
+	floodIt.floodPossibleTilesWithChosenColor(x, y-1, currentColor, chosenColor)
 
 }
 
@@ -125,8 +134,8 @@ func (floodIt *FloodIt) countColors(x, y int, visited [][]bool, colorCount *[7]i
 
 	colorCount[color]++
 
-	floodIt.countColors(x + 1, y, visited, colorCount)
-	floodIt.countColors(x - 1, y, visited, colorCount)
-	floodIt.countColors(x, y + 1, visited, colorCount)
-	floodIt.countColors(x, y - 1, visited, colorCount)
+	floodIt.countColors(x+1, y, visited, colorCount)
+	floodIt.countColors(x-1, y, visited, colorCount)
+	floodIt.countColors(x, y+1, visited, colorCount)
+	floodIt.countColors(x, y-1, visited, colorCount)
 }
